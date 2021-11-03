@@ -50,18 +50,17 @@ public class Repositories extends AppCompatActivity {
 
         setUp();
         updateHeader();
-//        headerList();
+        headerList();
     }
 
     private void setUp() {
         User mUser = (User) getIntent().getSerializableExtra("data");
         user = mUser;
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(user.getRepos_url())
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        service = retrofit.create(ApiService.class);
-//        Toast.makeText(this, user.toString(), Toast.LENGTH_SHORT).show();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.github.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(ApiService.class);
     }
 
     private void setUpDrawNavigation() {
@@ -78,13 +77,14 @@ public class Repositories extends AppCompatActivity {
     }
 
     private void headerList() {
-        service.loadAllRepos().enqueue(new Callback<List<Repository>>() {
+        service.loadAllRepos(user.getLogin()).enqueue(new Callback<List<Repository>>() {
             @Override
             public void onResponse(Call<List<Repository>> call, Response<List<Repository>> response) {
                 if (response.isSuccessful()) {
                     List<Repository> list = response.body();
-                    if (list != null) {
-                    }
+                    adapter = new RepoAdapter(list);
+                    recyclerView.setAdapter(adapter);
+
                 }
             }
 
@@ -98,7 +98,7 @@ public class Repositories extends AppCompatActivity {
     private void updateHeader() {
         NavigationView navigationView = binding.navView;
         View view = navigationView.getHeaderView(0);
-
+        recyclerView = view.findViewById(R.id.rv_repos);
         TextView tvID = view.findViewById(R.id.nav_name);
         TextView tvLogin = view.findViewById(R.id.nav_mail);
         ImageView imageAvatar = view.findViewById(R.id.nav_image);

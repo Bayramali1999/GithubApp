@@ -37,6 +37,11 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.RepoVH> {
         return list.size();
     }
 
+    public void updateData(List<Repository> list) {
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
     class RepoVH extends RecyclerView.ViewHolder {
         private TextView tvName;
 

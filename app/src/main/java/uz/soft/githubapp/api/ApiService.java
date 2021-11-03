@@ -14,7 +14,7 @@ public interface ApiService {
     @GET("users/{user}")
     Call<User> loadInfoUser(@Path("user") String user);
 
-    @GET
-    Call<List<Repository>> loadAllRepos();
+    @GET("users/{login}/repos")
+    Call<List<Repository>> loadAllRepos(@Path("login") String login);
 
 }
