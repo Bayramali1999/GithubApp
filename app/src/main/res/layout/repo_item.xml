@@ -4,15 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/input_style"
-    app:civ_border_color="#000000"
-    app:civ_border_width="3dp">
+    app:cardBackgroundColor="#eeeeee"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="8dp">
 
     <TextView
         android:id="@+id/repo_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
-        android:padding="8dp"
         android:text="asdsadas"
         android:textColor="@color/black"
         android:textSize="20sp" />

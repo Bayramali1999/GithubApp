@@ -1,6 +1,7 @@
 package uz.soft.githubapp;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,10 +28,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import uz.soft.githubapp.adapter.RepoAdapter;
 import uz.soft.githubapp.api.ApiService;
 import uz.soft.githubapp.databinding.ActivityRepositoriesBinding;
+import uz.soft.githubapp.listener.RepoItemClickListener;
 import uz.soft.githubapp.model.Repository;
 import uz.soft.githubapp.model.User;
 
-public class Repositories extends AppCompatActivity {
+public class Repositories extends AppCompatActivity implements RepoItemClickListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityRepositoriesBinding binding;
@@ -38,6 +40,7 @@ public class Repositories extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ApiService service;
     private RepoAdapter adapter;
+    private DrawerLayout drawer;
 
 
     @Override
@@ -64,7 +67,7 @@ public class Repositories extends AppCompatActivity {
     }
 
     private void setUpDrawNavigation() {
-        DrawerLayout drawer = binding.drawerLayout;
+        drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
@@ -82,7 +85,7 @@ public class Repositories extends AppCompatActivity {
             public void onResponse(Call<List<Repository>> call, Response<List<Repository>> response) {
                 if (response.isSuccessful()) {
                     List<Repository> list = response.body();
-                    adapter = new RepoAdapter(list);
+                    adapter = new RepoAdapter(list, Repositories.this);
                     recyclerView.setAdapter(adapter);
 
                 }
@@ -115,4 +118,10 @@ public class Repositories extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    @Override
+    public void repoClicked(Repository repository) {
+        drawer.closeDrawer(Gravity.LEFT);
+
+
+    }
 }
